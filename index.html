@@ -7,7 +7,7 @@
 
 <h1>My First Heading</h1>
 <p>My first paragraph.</p>
-<button style="padding: 300px;font-size: 70px;" onclick="downloadPDFDeviceSpecific()">click to download new PDF</button>
+<button style="padding: 300px;font-size: 70px;" onclick="downloadPDFNew()">click to download new PDF</button>
 <button style="padding: 300px;font-size: 70px;" onclick="downloadPDF()">click to download pdf 1</button>
     <button style="padding: 300px;font-size: 70px;" onclick="downloadPDF2()">click to download pdf 2</button>
 
@@ -22,6 +22,30 @@
 if (isSafari) {
   var newWindow = window.open('', '_blank');
 }
+
+function downloadPDFNew() {
+        $.ajax({
+
+url : 'https://6310fc4719eb631f9d6ae2a1.mockapi.io/test',
+type : 'GET',
+dataType:'json',
+success : function(data) {     
+    var pdf = data[0].base64;  
+    var link = document.createElement("iframe");
+link.src = "data:application/pdf;base64,"+pdf;
+link.width = "100px";
+link.height = "100px";
+
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+},
+error : function(request,error)
+{
+    alert("Request: "+JSON.stringify(request));
+}
+});
+    }
 
 function dataURItoBlob(dataURI) {
       const byteString = window.atob(dataURI);

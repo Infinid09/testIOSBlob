@@ -18,15 +18,16 @@ url : 'https://6310fc4719eb631f9d6ae2a1.mockapi.io/test',
 type : 'GET',
 dataType:'json',
 success : function(data) {     
-    var pdf = data[0].base64;         
-    var link = document.createElement("a");
-link.href = "data:application/pdf;base64,"+pdf;
-link.download = "contract_123123";
-link.target = "_self";
+    var pdf = data[0].base64;  
+    window.open("data:application/pdf;base64," + pdf);
+    //var link = document.createElement("a");
+//link.href = "data:application/pdf;base64,"+pdf;
+//link.download = "contract_123123";
+//link.target = "_self";
 
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
+//document.body.appendChild(link);
+//link.click();
+//document.body.removeChild(link);
 },
 error : function(request,error)
 {

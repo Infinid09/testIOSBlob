@@ -7,11 +7,55 @@
 
 <h1>My First Heading</h1>
 <p>My first paragraph.</p>
+<button style="padding: 300px;font-size: 70px;" onclick="downloadPDFDeviceSpecific()">click to download new PDF</button>
 <button style="padding: 300px;font-size: 70px;" onclick="downloadPDF()">click to download pdf 1</button>
     <button style="padding: 300px;font-size: 70px;" onclick="downloadPDF2()">click to download pdf 2</button>
 
 </body>
 <script>
+    var isSafari =
+  navigator.vendor &&
+  navigator.vendor.indexOf('Apple') > -1 &&
+  navigator.userAgent &&
+  navigator.userAgent.indexOf('CriOS') == -1 &&
+  navigator.userAgent.indexOf('FxiOS') == -1;
+if (isSafari) {
+  var newWindow = window.open('', '_blank');
+}
+
+function dataURItoBlob(dataURI) {
+      const byteString = window.atob(dataURI);
+      const arrayBuffer = new ArrayBuffer(byteString.length);
+      const int8Array = new Uint8Array(arrayBuffer);
+      for (let i = 0; i < byteString.length; i++) {
+        int8Array[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([int8Array], { type: 'application/pdf'});
+      return blob;
+    }
+
+function downloadPDFDeviceSpecific(){
+    $.ajax({
+
+url : 'https://6310fc4719eb631f9d6ae2a1.mockapi.io/test',
+type : 'GET',
+dataType:'json',
+success : function(data) {     
+    var pdfUrl = data[0].base64;  
+    const blob = dataURItoBlob(pdfUrl);
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+
+},
+error : function(request,error)
+{
+    alert("Request: "+JSON.stringify(request));
+}
+});
+}
+
+
+
     function downloadPDF() {
         $.ajax({
 
